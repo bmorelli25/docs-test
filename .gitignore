@@ -1,0 +1,15 @@
+# Sphinx build folder
+_build
+build
+partial_build
+docs/partial_source
+docs/partial_build
+
+# Environemnts
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

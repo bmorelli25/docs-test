@@ -1,0 +1,33 @@
+name: build_docs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/source/content-3/**
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Install dependencies
+        run: |
+          pip install sphinx myst-parser sphinx-design sphinx-copybutton sphinx-togglebutton sphinxcontrib-mermaid sphobjinv ninja2 https://github.com/bmorelli25/furo/archive/refs/heads/main.zip
+      - name: Sphinx build
+        run: |
+          sphinx-build $GITHUB_WORKSPACE/docs/source/content-3 _build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/
+          force_orphan: true
+          destination_dir: guides

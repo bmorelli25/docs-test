@@ -1,0 +1,24 @@
+name: test_docs
+
+on:
+  workflow_dispatch:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - name: Install dependencies
+        run: |
+          pip install sphinx myst-parser sphinx-design sphinx-copybutton sphinx-togglebutton sphinxcontrib-mermaid sphobjinv ninja2 https://github.com/bmorelli25/furo/archive/refs/heads/main.zip
+      - name: Sphinx build
+        run: |
+          sphinx-build $GITHUB_WORKSPACE/docs/source/content-1 _build
