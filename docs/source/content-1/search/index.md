@@ -20,6 +20,7 @@ protection capabilities, leveraged by the speed and extensibility of
 Elasticsearch, enable analysts to defend their organization from threats before
 damage and loss occur.
 
+
 Elastic Security provides the following security benefits and capabilities:
 
 * A detection engine to identify attacks and system misconfigurations
