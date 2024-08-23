@@ -32,8 +32,6 @@ Elastic Security provides the following security benefits and capabilities:
 
 The following diagram provides a comprehensive illustration of the Elastic Security workflow.
 
-<!-- ![Elastic Security workflow](images/es-overview/-getting-started-workflow.png) -->
-
 Here's an overview of the flow and its components:
 
 * Data is shipped from your hosts to Elastic Security in the following ways:
