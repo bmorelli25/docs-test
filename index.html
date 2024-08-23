@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    grid-template-rows: repeat(2, 200px);
+    gap: 20px;
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0F1C3F;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.square:hover {
+    transform: scale(1.1);
+    background-color: #4a53c8;
+}
+
+  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <a href="page1.html" class="square">Get Started</a>
+        <a href="page2.html" class="square">Solutions</a>
+        <a href="page3.html" class="square">Platform</a>
+        <a href="page4.html" class="square">API Reference</a>
+    </div>
+</body>
+</html>
