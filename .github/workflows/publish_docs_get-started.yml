@@ -30,4 +30,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: _build/
           force_orphan: true
+          keep_files: true
           destination_dir: get-started
