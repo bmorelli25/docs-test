@@ -1,0 +1,1030 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Manage data retention" href="synthetics-manage-retention.html" /><link rel="prev" title="Scale and architect a Synthetics deployment" href="synthetics-scale-and-architect.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06.dev1 -->
+        <title>Write a synthetic test - Elastic documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=4a3d756c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <!-- DESKTOP HEADER -->
+  <header class="header">
+    <a class="header__logo" href="#">CWK</a>
+    <div class="header__toggle">
+        <i class="bx bx-menu" id="header-toggle"></i>
+    </div>
+    <nav class="nav" id="nav-menu">
+        <div class="nav__content bg-grid">
+            <a class="nav__profil" href="#">
+                <div class="nav__img">
+                    <img src="https://codwerk.github.io/assets/images/logo_codwerk-new.png" alt="" />
+                </div>
+                <div>
+                    <span class="nav__name">Elastic Docs</span>
+                </div>
+            </a>
+            <div class="nav__menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a class="nav__link" href="#">Get Started</a></li>
+                    <li class="nav__item dropdown">
+                        <a class="nav__link dropdown__link" href="#">
+                            Solutions<i class="bx bx-chevron-down dropdown__icon"></i>
+                            <ul class="dropdown__menu">
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Search</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Security</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Observability</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="nav__item dropdown">
+                      <a class="nav__link dropdown__link" href="#">
+                          Platform
+                          <i class="bx bx-chevron-down dropdown__icon"></i>
+                          <ul class="dropdown__menu">
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Elasticsearch</a>
+                              </li>
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Logstash</a>
+                              </li>
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Beats</a>
+                              </li>
+                          </ul>
+                      </a>
+                  </li>
+                    <li class="nav__item dropdown">
+                        <a class="nav__link dropdown__link" href="#">
+                            API
+                            <i class="bx bx-chevron-down dropdown__icon"></i>
+                            <ul class="dropdown__menu">
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Elasticsearch</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Logstash</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Beats</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Release Docs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Elastic  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">Elastic  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search me" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Observability</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Observability</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../observability-overview.html">Observability overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elastic-entity-model.html">Elastic Entity Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/create-an-observability-project.html">Create an Elastic Observability project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/billing.html">Observability billing dimensions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../apm/index.html">Application performance monitoring (APM)</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Application performance monitoring (APM)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-distributed-tracing.html">Distributed tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-metrics.html">Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-stacktrace-collection.html">Stacktrace collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-create-custom-links.html">Create custom links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-data-types.html">APM data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-overview.html">Navigate the Applications UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-reference.html">Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-get-started.html">Get started with traces and APM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-kibana-settings.html">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-logs.html">Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling.html">Transaction sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-observe-lambda-functions.html">Observe Lambda functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-service-overview.html">Service Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-transactions.html">Transactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-track-deployments-with-annotations.html">Track deployments with annotations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-traces.html">Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/new-experience-services.html">New services experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-query-your-data.html">Query your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-errors.html">Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-filter-your-data.html">Filter your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-reduce-your-data-usage.html">Reduce your data usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-view-and-analyze-traces.html">View and analyze traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-service-map.html">Service map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-integrate-with-machine-learning.html">Integrate with machine learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-problems.html">Troubleshooting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-problems.html#no-data-is-indexed">No data is indexed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-response-codes.html">Troubleshooting two</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-response-codes.html#http-400-data-decoding-error-data-validation-error">HTTP 400: Data decoding error / Data validation error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-send-traces-to-elastic.html">Send APM data to Elastic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling/configure-head-based-sampling.html">tran sampl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling/configure-head-based-sampling.html#id1">tran sampl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-compress-spans.html">Compress spans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-find-transaction-latency-and-failure-correlations.html">Find transaction latency and failure correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-dependencies.html">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-trace-sample-timeline.html">Trace sample timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-server-api.html">Managed intake service event API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-infrastructure.html">Infrastructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-keep-data-secure.html">Keep APM data secure</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../logging/index.html">Log monitoring</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Log monitoring</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../logging/get-started-with-logs.html">Get started with system logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/stream-log-files.html">Stream any log file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/correlate-application-logs.html">Stream application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/plaintext-application-logs.html">Plaintext application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/ecs-application-logs.html">ECS formatted application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/send-application-logs.html">PRODUCT_NAME log sending</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/parse-log-data.html">Parse and route logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/filter-and-aggregate-logs.html">Filter and aggregate logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/view-and-monitor-logs.html">Explore logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/monitor-datasets.html">Monitor log data set quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/add-logs-service-name.html">Add a service name to logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/run-log-pattern-analysis.html">Run a pattern analysis on log data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/troubleshoot-logs.html">Troubleshoot logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Synthetics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Synthetics</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="synthetics-lightweight.html">Configure lightweight monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-manage-monitors.html">Manage monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-get-started-ui.html">Create monitors in the Synthetics UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-scale-and-architect.html">Scale and architect a Synthetics deployment</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Write a synthetic test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-manage-retention.html">Manage data retention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-configuration.html">Configure a Synthetics project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-params-secrets.html">Work with params and secrets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-settings.html">Configure Synthetics settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-get-started-project.html">Create monitors with a Synthetics project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-command-reference.html">Use the Synthetics CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-intro.html">Synthetic monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-journeys.html">Scripting browser monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-private-location.html">Monitor resources on private networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html">Use the Synthetics Recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#record-a-journey">Record a journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#edit-a-journey">Edit a journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#test-the-journey">Test the journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-analyze.html">Analyze data from synthetic monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-troubleshooting.html">Troubleshooting Synthetics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-monitor-use.html">Configure individual browser monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-feature-roles.html">Grant users access to secured resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-security-encryption.html">Synthetics Encryption and Security</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../alerting/index.html">Create and manage rules</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Create and manage rules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-slo-burn-rate-alert-rule.html">Create an SLO burn rate rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/triage-threshold-breaches.html">Triage threshold breaches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/view-alerts.html">View alerts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-inventory-threshold-alert-rule.html">Create an inventory rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/alerting.html">Alerting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/aiops-generate-anomaly-alerts.html">Create an anomaly detection rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-anomaly-alert-rule.html">Create an APM anomaly rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/aggregation-options.html">Aggregation options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-latency-threshold-alert-rule.html">Create a latency threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/triage-slo-burn-rate-breaches.html">Triage SLO burn rate breaches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-elasticsearch-query-alert-rule.html">Create an Elasticsearch query rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-custom-threshold-alert-rule.html">Create a custom threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/alerting-connectors.html">Alerting connectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-error-count-threshold-alert-rule.html">Create an error count threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-failed-transaction-rate-threshold-alert-rule.html">Create a failed transaction rate threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/rate-aggregation.html">Rate aggregation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../cases/index.html">Cases</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Cases</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cases/manage-cases-settings.html">Configure case settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cases/create-manage-cases.html">Create and manage cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../unsorted/index.html">Unsorted</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Unsorted</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-elastic-apm-agents.html">Elastic APM agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-collect-metrics.html">Collect metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-resource-attributes.html">Resource attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-opentelemetry-apisdk-with-elastic-apm-agents.html">OpenTelemetry API/SDK with Elastic APM agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-limitations.html">Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-aws-lambda-functions.html">AWS Lambda functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry.html">OpenTelemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-opentelemetry-native-support.html">OpenTelemetry native support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-other-execution-environments.html">AWS Lambda support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html">Detect anomalies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html#create-and-run-an-anomaly-detection-job">Create and run an anomaly detection job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html#view-the-results">View the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-forecast-anomaly.html">Forecast future behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-tune-anomaly-detection-job.html">Tune your anomaly detection job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-change-points.html">Detect change points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-analyze-spikes.html">Analyze log spikes and drops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops.html">AIOps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dashboards/dashboards-and-visualizations.html">Dashboards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/metrics-app-fields.html">Required fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/get-started-with-metrics.html">Get started with system metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/metrics-reference.html">Metrics reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/analyze-hosts.html">Analyze and compare hosts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/detect-metric-anomalies.html">Detect metric anomalies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/kubernetes-pod-metrics.html">Kubernetes pod metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/configure-infra-settings.html">Configure settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/docker-container-metrics.html">Docker container metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/view-infrastructure-metrics.html">View infrastructure metrics by resource type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/host-metrics.html">Host metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/aws-metrics.html">AWS metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/infra-monitoring.html">Infrastructure monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ai-assistant/ai-assistant.html">AI Assistant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slos/slos.html">SLOs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slos/create-an-slo.html">Create an SLO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../search/index.html">Elastic Search</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Elastic Search</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../search/bucket-1/index.html">Bucket 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../search/bucket-2/index.html">Bucket 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sec/index.html">Elastic Security</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Elastic Security</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../sec/bucket-1/index.html">Bucket 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sec/bucket-2/index.html">Bucket 2</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../../_sources/obs/synthetics/synthetics-create-test.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="write-a-synthetic-test">
+<h1>Write a synthetic test<a class="headerlink" href="#write-a-synthetic-test" title="Link to this heading">¶</a></h1>
+<p><DocBadge template="technical preview" /></p>
+<div id="synthetics-create-test"></div>
+<p>After <DocLink slug="/serverless/observability/synthetics-get-started-project">setting up a Synthetics project</DocLink>, you can start writing synthetic tests that check critical actions and requests that an end-user might make
+on your site.</p>
+<div id="synthetics-syntax"></div>
+<section id="syntax-overview">
+<h2>Syntax overview<a class="headerlink" href="#syntax-overview" title="Link to this heading">¶</a></h2>
+<p>To write synthetic tests for your application, you’ll need to know basic JavaScript and
+<a class="reference external" href="https://playwright.dev/">Playwright</a> syntax.</p>
+<DocCallOut title="Tip">
+[Playwright](https://playwright.dev/) is a browser testing library developed by Microsoft.
+It's fast, reliable, and features a modern API that automatically waits for page elements to be ready.
+</DocCallOut>
+<p>The synthetics agent exposes an API for creating and running tests, including:</p>
+<p>&lt;DocTable columns={[
+{ title: “”, width: “20%” },
+{ title: “”, width: “80%” }
+]}&gt;
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">journey</span></code></DocCell>
+<DocCell>
+Tests one discrete unit of functionality. Takes two parameters: a <code class="docutils literal notranslate"><span class="pre">name</span></code> (string) and a <code class="docutils literal notranslate"><span class="pre">callback</span></code> (function).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;create-a-journey&quot;&gt;Create a journey&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`step`</DocCell>
+    <DocCell>
+      Actions within a journey that should be completed in a specific order. Takes two parameters: a `name` (string) and a `callback` (function).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;add-steps&quot;&gt;Add steps&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`expect`</DocCell>
+    <DocCell>
+      Check that a value meets a specific condition. There are several supported checks.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;make-assertions&quot;&gt;Make assertions&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`beforeAll`</DocCell>
+    <DocCell>
+      Runs a provided function once, before any `journey` runs. If the provided function is a promise, the runner will wait for the  promise to resolve before invoking the `journey`.  Takes one parameter: a `callback` (function).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;set-up-and-remove-a-global-state&quot;&gt;Set up and remove a global state&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`before`</DocCell>
+    <DocCell>
+      Runs a provided function before a single `journey` runs. Takes one parameter: a `callback` (function).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;set-up-and-remove-a-global-state&quot;&gt;Set up and remove a global state&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`afterAll`</DocCell>
+    <DocCell>
+      Runs a provided function once, after all the `journey` runs have completed. Takes one parameter: a `callback` (function).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;set-up-and-remove-a-global-state&quot;&gt;Set up and remove a global state&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`after`</DocCell>
+    <DocCell>
+      Runs a provided function after a single `journey` has completed. Takes one parameter: a `callback` (function).
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;set-up-and-remove-a-global-state&quot;&gt;Set up and remove a global state&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>`monitor`</DocCell>
+    <DocCell>
+      The `monitor.use` method allows you to determine a monitor's configuration on a journey-by-journey basis. If you want two journeys to create monitors with different intervals, for example, you should call  `monitor.use` in each of them and set the `schedule` property to different values in each.  Note that this is only relevant when using the `push` command to create monitors in your Observability project.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  Learn more in &lt;DocLink slug=&quot;/serverless/observability/synthetics-monitor-use&quot;&gt;Configure individual browser monitors&lt;/DocLink&gt;.
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+</DocTable>
+<div id="synthetics-create-journey"></div>
+</section>
+<section id="create-a-journey">
+<h2>Create a journey<a class="headerlink" href="#create-a-journey" title="Link to this heading">¶</a></h2>
+<p>Create a new file using the <code class="docutils literal notranslate"><span class="pre">.journey.ts</span></code> or <code class="docutils literal notranslate"><span class="pre">.journey.js</span></code> file extension or edit one of the example journey files.</p>
+<p>A <em>journey</em> tests one discrete unit of functionality.
+For example, logging into a website, adding something to a cart, or joining a mailing list.</p>
+<p>The journey function takes two parameters: a <code class="docutils literal notranslate"><span class="pre">name</span></code> and a <code class="docutils literal notranslate"><span class="pre">callback</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">name</span></code> helps you identify an individual journey.
+The <code class="docutils literal notranslate"><span class="pre">callback</span></code> argument is a function that encapsulates what the journey does.
+The callback provides access to fresh Playwright <code class="docutils literal notranslate"><span class="pre">page</span></code>, <code class="docutils literal notranslate"><span class="pre">params</span></code>, <code class="docutils literal notranslate"><span class="pre">browser</span></code>, and <code class="docutils literal notranslate"><span class="pre">context</span></code> instances.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">journey</span><span class="p">(</span><span class="s1">&#39;Journey name&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">browser</span><span class="p">,</span><span class="w"> </span><span class="nx">context</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Add steps here</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<div id="synthetics-journey-ref"></div>
+<section id="arguments">
+<h3>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h3>
+<p>&lt;DocTable columns={[
+{
+“title”: “”,
+“width”: “20%”
+},
+{
+“title”: “”,
+“width”: “80%”
+}
+]}&gt;
+<DocRow>
+<DocCell>
+<strong><code class="docutils literal notranslate"><span class="pre">name</span></code></strong><br />(<em>string</em>)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;/DocCell&gt;
+&lt;DocCell&gt;
+  A user-defined string to describe the journey.
+
+
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+  <DocRow>
+    <DocCell>
+      **`callback`** (_function_)
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;/DocCell&gt;
+&lt;DocCell&gt;
+  A function where you will add steps.
+
+  **Instances**:
+
+      `page`
+      : A [page](https://playwright.dev/docs/api/class-page) object from Playwright
+      that lets you control the browser&#39;s current page.
+
+      `browser`
+      : A [browser]({book[&#39;playwright-api-docs&#39;]}) object created by Playwright.
+
+      `context`
+      : A [browser context](https://playwright.dev/docs/api/class-browsercontext)
+      that doesn&#39;t share cookies or cache with other browser contexts.
+
+      `params`
+      : User-defined variables that allow you to invoke the Synthetics suite with custom parameters.
+      For example, if you want to use a different homepage depending on the `env`
+      (`localhost` for `dev` and a URL for `prod`). See &lt;DocLink slug=&quot;/serverless/observability/synthetics-params-secrets&quot;&gt;Work with params and secrets&lt;/DocLink&gt;
+      for more information.
+
+        `request`
+      : A request object that can be used to make API requests independently of the browser
+      interactions. For example, to get authentication credentials or tokens in service of a
+      browser-based test. See &lt;DocLink slug=&quot;/serverless/observability/synthetics-create-test&quot; section=&quot;make-api-requests&quot;&gt;Make API requests&lt;/DocLink&gt; for more information.
+
+
+&lt;/DocCell&gt;
+</pre></div>
+</div>
+  </DocRow>
+</DocTable>
+<div id="synthetics-create-step"></div>
+</section>
+</section>
+<section id="add-steps">
+<h2>Add steps<a class="headerlink" href="#add-steps" title="Link to this heading">¶</a></h2>
+<p>A journey consists of one or more <em>steps</em>. Steps are actions that should be completed in a specific order.
+Steps are displayed individually in the Synthetics UI along with screenshots for convenient debugging and error tracking.</p>
+<p>A basic two-step journey would look like this:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">journey</span><span class="p">(</span><span class="s1">&#39;Journey name&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">browser</span><span class="p">,</span><span class="w"> </span><span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;Step 1 name&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Do something here</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;Step 2 name&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Do something else here</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Steps can be as simple or complex as you need them to be.
+For example, a basic first step might load a web page:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span><span class="p">(</span><span class="s1">&#39;Load the demo page&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s1">&#39;https://elastic.github.io/synthetics-demo/&#39;</span><span class="p">);</span>  \<span class="p">[</span>\<span class="o">^</span>\<span class="mi">1</span><span class="p">]</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>[^\1]: Go to the <a class="reference external" href="https://playwright.dev/docs/api/class-page#page-goto"><code class="docutils literal notranslate"><span class="pre">page.goto</span></code> reference</a> for more information.</p>
+<div id="synthetics-step-ref"></div>
+<section id="id1">
+<h3>Arguments<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>&lt;DocTable columns={[
+{
+“title”: “”,
+“width”: “20%”
+},
+{
+“title”: “”,
+“width”: “80%”
+}
+]}&gt;
+<DocRow>
+<DocCell><strong><code class="docutils literal notranslate"><span class="pre">name</span></code></strong><br />(<em>string</em>)</DocCell>
+<DocCell>
+A user-defined string to describe the journey.
+</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><strong><code class="docutils literal notranslate"><span class="pre">callback</span></code></strong> (<em>function</em>)</DocCell>
+<DocCell>
+A function where you simulate user workflows using Synthetics and <DocLink slug="/serverless/observability/synthetics-create-test" section="playwright-syntax">Playwright</DocLink> syntax.
+</DocCell>
+</DocRow>
+</DocTable></p>
+<DocCallOut id="synthetics-create-test-script-recorder" title="Note">
+<p>If you want to generate code by interacting with a web page directly, you can use the <strong>Synthetics Recorder</strong>.</p>
+<p>The recorder launches a <a class="reference external" href="https://www.chromium.org/Home/">Chromium browser</a> that will listen to each interaction you have with the web page and record them internally using Playwright.
+When you’re done interacting with the browser, the recorder converts the recorded actions into JavaScript code that you can use with Elastic Synthetics or PRODUCT_NAME.</p>
+<p>For more details on getting started with the Synthetics Recorder, refer to <DocLink slug="/serverless/observability/synthetics-recorder">Use the Synthetics Recorder</DocLink>.</p>
+</DocCallOut>
+<div id="synthetics-playwright"></div>
+</section>
+<section id="playwright-syntax">
+<h3>Playwright syntax<a class="headerlink" href="#playwright-syntax" title="Link to this heading">¶</a></h3>
+<p>Inside the callback for each step, you’ll likely use a lot of Playwright syntax.
+Use Playwright to simulate and validate user workflows including:</p>
+<ul class="simple">
+<li><p>Interacting with the <a class="reference external" href="https://playwright.dev/docs/api/class-browser">browser</a>
+or the current <a class="reference external" href="https://playwright.dev/docs/api/class-page">page</a> (like in the example above).</p></li>
+<li><p>Finding elements on a web page using <a class="reference external" href="https://playwright.dev/docs/api/class-locator">locators</a>.</p></li>
+<li><p>Simulating <a class="reference external" href="https://playwright.dev/docs/api/class-mouse">mouse</a>,
+<a class="reference external" href="https://playwright.dev/docs/api/class-touchscreen">touch</a>, or
+<a class="reference external" href="https://playwright.dev/docs/api/class-keyboard">keyboard</a> events.</p></li>
+<li><p>Making assertions using <a class="reference external" href="https://playwright.dev/docs/test-assertions"><code class="docutils literal notranslate"><span class="pre">&#64;playwright/test</span></code>’s <code class="docutils literal notranslate"><span class="pre">expect</span></code> function</a>. Read more in <DocLink slug="/serverless/observability/synthetics-create-test" section="make-assertions">Make assertions</DocLink>.</p></li>
+</ul>
+<p>Visit the <a class="reference external" href="https://playwright.dev/docs">Playwright documentation</a> for information.</p>
+<DocCallOut title="Note">
+<p>Do not attempt to run in headful mode (using <code class="docutils literal notranslate"><span class="pre">headless:false</span></code>) when running through Elastic’s global managed testing infrastructure or Private Locations as this is not supported.</p>
+</DocCallOut>
+<p>However, not all Playwright functionality should be used with Elastic Synthetics.
+In some cases, there are alternatives to Playwright functionality built into the
+Elastic Synthetics library. These alternatives are designed to work better for
+synthetic monitoring. Do <em>not</em> use Playwright syntax to:</p>
+<ul class="simple">
+<li><p><strong>Make API requests.</strong> Use Elastic Synthetic’s <code class="docutils literal notranslate"><span class="pre">request</span></code>
+parameter instead. Read more in <DocLink slug="/serverless/observability/synthetics-create-test" section="make-api-requests">Make API requests</DocLink>.</p></li>
+</ul>
+<p>There is also some Playwright functionality that is not supported out-of-the-box
+in Elastic Synthetics including:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://playwright.dev/docs/api/class-video">Videos</a></p></li>
+<li><p>The <a class="reference external" href="https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-screenshot-1"><code class="docutils literal notranslate"><span class="pre">toHaveScreenshot</span></code></a> and <a class="reference external" href="https://playwright.dev/docs/api/class-snapshotassertions"><code class="docutils literal notranslate"><span class="pre">toMatchSnapshot</span></code></a> assertions</p></li>
+</ul>
+<DocCallOut title="Note">
+  Captures done programmatically via https://playwright.dev/docs/api/class-page#page-screenshot[`screenshot`] or https://playwright.dev/docs/api/class-page#page-video[`video`] are not stored and are not shown in the Synthetics application. Providing a `path` will likely make the monitor fail due to missing permissions to write local files.
+</DocCallOut>
+<div id="synthetics-make-assertions"></div>
+</section>
+</section>
+<section id="make-assertions">
+<h2>Make assertions<a class="headerlink" href="#make-assertions" title="Link to this heading">¶</a></h2>
+<p>A more complex <code class="docutils literal notranslate"><span class="pre">step</span></code> might wait for a page element to be selected
+and then make sure that it matches an expected value.</p>
+<p>Elastic Synthetics uses <code class="docutils literal notranslate"><span class="pre">&#64;playwright/test</span></code>’s <code class="docutils literal notranslate"><span class="pre">expect</span></code> function to make assertions
+and supports most <a class="reference external" href="https://playwright.dev/docs/test-assertions">Playwright assertions</a>.
+Elastic Synthetics does <em>not</em> support <a class="reference external" href="https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-screenshot-1"><code class="docutils literal notranslate"><span class="pre">toHaveScreenshot</span></code></a>
+or any <a class="reference external" href="https://playwright.dev/docs/api/class-snapshotassertions">Snapshot Assertions</a>.</p>
+<p>For example, on a page using the following HTML:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">header</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;header&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>todos<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;new-todo&quot;</span>
+    <span class="na">autofocus</span> <span class="na">autocomplete</span><span class="o">=</span><span class="s">&quot;off&quot;</span>
+    <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;What needs to be done?&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>You can verify that the <code class="docutils literal notranslate"><span class="pre">input</span></code> element with class <code class="docutils literal notranslate"><span class="pre">new-todo</span></code> has the expected <code class="docutils literal notranslate"><span class="pre">placeholder</span></code> value
+(the hint text for <code class="docutils literal notranslate"><span class="pre">input</span></code> elements) with the following test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span><span class="p">(</span><span class="s1">&#39;Assert placeholder text&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="n">const</span> <span class="nb">input</span> <span class="o">=</span> <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s1">&#39;input.new-todo&#39;</span><span class="p">);</span>  \<span class="p">[</span>\<span class="o">^</span>\<span class="mi">1</span><span class="p">]</span>
+  <span class="n">expect</span><span class="p">(</span><span class="k">await</span> <span class="nb">input</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="s1">&#39;placeholder&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">toBe</span><span class="p">(</span>
+    <span class="s1">&#39;What needs to be done?&#39;</span>
+  <span class="p">);</span>  \<span class="p">[</span>\<span class="o">^</span>\<span class="mi">2</span><span class="p">]</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>[^\1]: Find the <code class="docutils literal notranslate"><span class="pre">input</span></code> element with class <code class="docutils literal notranslate"><span class="pre">new-todo</span></code>.
+[^\2]: Use the assertion library provided by the Synthetics agent to check that
+the value of the <code class="docutils literal notranslate"><span class="pre">placeholder</span></code> attribute matches a specific string.</p>
+<div id="synthetics-request-param"></div>
+</section>
+<section id="make-api-requests">
+<h2>Make API requests<a class="headerlink" href="#make-api-requests" title="Link to this heading">¶</a></h2>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">request</span></code> parameter to make API requests independently of browser interactions.
+For example, you could retrieve a token from an HTTP endpoint and use it in a subsequent webpage request.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;make an API request&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// Do something with the response</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>The Elastic Synthetics <code class="docutils literal notranslate"><span class="pre">request</span></code> parameter is similar to <a class="reference external" href="https://playwright.dev/docs/api/class-apirequestcontext">other request objects that are exposed by Playwright</a>
+with a few key differences:</p>
+<ul class="simple">
+<li><p>The Elastic Synthetics <code class="docutils literal notranslate"><span class="pre">request</span></code> parameter comes built into the library so it doesn’t
+have to be imported separately, which reduces the amount of code needed and allows you to
+make API requests in <DocLink slug="/serverless/observability/synthetics-get-started-ui" section="add-a-browser-monitor">inline journeys</DocLink>.</p></li>
+<li><p>The top level <code class="docutils literal notranslate"><span class="pre">request</span></code> object exposed by Elastic Synthetics has its own isolated cookie storage
+unlike Playwright’s <code class="docutils literal notranslate"><span class="pre">context.request</span></code> and <code class="docutils literal notranslate"><span class="pre">page.request</span></code>, which share cookie storage
+with the corresponding <a class="reference external" href="https://playwright.dev/docs/api/class-browsercontext"><code class="docutils literal notranslate"><span class="pre">BrowserContext</span></code></a>.</p></li>
+<li><p>If you want to control the creation of the <code class="docutils literal notranslate"><span class="pre">request</span></code> object, you can do so by passing options
+via <DocLink slug="/serverless/observability/synthetics-command-reference" section="elasticsynthetics"><code class="docutils literal notranslate"><span class="pre">--playwright-options</span></code></DocLink> or in the
+<DocLink slug="/serverless/observability/synthetics-configuration"><code class="docutils literal notranslate"><span class="pre">synthetics.config.ts</span></code> file</DocLink>.</p></li>
+</ul>
+<p>For a full example that shows how to use the <code class="docutils literal notranslate"><span class="pre">request</span></code> object, refer to the <a class="reference external" href="https://github.com/elastic/synthetics-demo/blob/main/advanced-examples/journeys/api-requests.journey.ts">Elastic Synthetics demo repository</a>.</p>
+<DocCallOut title="Note">
+The `request` parameter is not intended to be used for writing pure API tests. Instead, it is a way to support
+writing plain HTTP requests in service of a browser-based test.
+</DocCallOut>
+<div id="before-after"></div>
+</section>
+<section id="set-up-and-remove-a-global-state">
+<h2>Set up and remove a global state<a class="headerlink" href="#set-up-and-remove-a-global-state" title="Link to this heading">¶</a></h2>
+<p>If there are any actions that should be done before or after journeys, you can use <code class="docutils literal notranslate"><span class="pre">before</span></code>, <code class="docutils literal notranslate"><span class="pre">beforeAll</span></code>, <code class="docutils literal notranslate"><span class="pre">after</span></code>, or <code class="docutils literal notranslate"><span class="pre">afterAll</span></code>.</p>
+<p>To set up global state or a server that will be used for a <strong>single</strong> <code class="docutils literal notranslate"><span class="pre">journey</span></code>, for example,
+use a <code class="docutils literal notranslate"><span class="pre">before</span></code> hook. To perform this setup once before <strong>all</strong> journeys, use a <code class="docutils literal notranslate"><span class="pre">beforeAll</span></code> hook.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">before</span><span class="p">(({</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Actions to take</span>
+<span class="p">});</span>
+
+<span class="nx">beforeAll</span><span class="p">(({</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Actions to take</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>You can clean up global state or close a server used for a <strong>single</strong> <code class="docutils literal notranslate"><span class="pre">journey</span></code> using an <code class="docutils literal notranslate"><span class="pre">after</span></code> hook.
+To perform this cleanup once after all journeys, use an <code class="docutils literal notranslate"><span class="pre">afterAll</span></code> hook.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">after</span><span class="p">(({</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Actions to take</span>
+<span class="p">});</span>
+
+<span class="nx">afterAll</span><span class="p">(({</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Actions to take</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<div id="synthetics-import-packages"></div>
+</section>
+<section id="import-npm-packages">
+<h2>Import NPM packages<a class="headerlink" href="#import-npm-packages" title="Link to this heading">¶</a></h2>
+<p>You can import and use other NPM packages inside journey code.
+Refer to the example below using the external NPM package <code class="docutils literal notranslate"><span class="pre">is-positive</span></code>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">journey</span><span class="p">,</span><span class="w"> </span><span class="nx">step</span><span class="p">,</span><span class="w"> </span><span class="nx">monitor</span><span class="p">,</span><span class="w"> </span><span class="nx">expect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@elastic/synthetics&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">isPositive</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;is-positive&#39;</span><span class="p">;</span>
+
+<span class="nx">journey</span><span class="p">(</span><span class="s1">&#39;bundle test&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;check if positive&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">isPositive</span><span class="p">(</span><span class="mf">4</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>When you <DocLink slug="/serverless/observability/synthetics-get-started-project">create a monitor</DocLink> from a journey that uses
+external NPM packages, those packages will be bundled along with the
+journey code when the <code class="docutils literal notranslate"><span class="pre">push</span></code> command is invoked.</p>
+<p>However there are some limitations when using external packages:</p>
+<ul class="simple">
+<li><p>Bundled journeys after compression should not be more than 800 Kilobytes.</p></li>
+<li><p>Native node modules will not work as expected due to platform inconsistency.</p></li>
+</ul>
+<div id="synthetics-sample-test"></div>
+</section>
+<section id="sample-synthetic-test">
+<h2>Sample synthetic test<a class="headerlink" href="#sample-synthetic-test" title="Link to this heading">¶</a></h2>
+<p>A complete example of a basic synthetic test might look like this:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">journey</span><span class="p">,</span><span class="w"> </span><span class="nx">step</span><span class="p">,</span><span class="w"> </span><span class="nx">expect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@elastic/synthetics&#39;</span><span class="p">;</span>
+
+<span class="nx">journey</span><span class="p">(</span><span class="s1">&#39;Ensure placeholder is correct&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;Load the demo page&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s1">&#39;https://elastic.github.io/synthetics-demo/&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;Assert placeholder text&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">placeholderValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span>
+<span class="w">      </span><span class="s1">&#39;input.new-todo&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">&#39;placeholder&#39;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="nx">placeholderValue</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;What needs to be done?&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>You can find more complex examples in the <a class="reference external" href="https://github.com/elastic/synthetics-demo/blob/main/advanced-examples/journeys/api-requests.journey.ts">Elastic Synthetics demo repository</a>.</p>
+<div id="synthetics-test-locally"></div>
+</section>
+<section id="test-locally">
+<h2>Test locally<a class="headerlink" href="#test-locally" title="Link to this heading">¶</a></h2>
+<p>As you write journeys, you can run them locally to verify they work as expected. Then, you can create monitors to run your journeys at a regular interval.</p>
+<p>To test all the journeys in a Synthetics project, navigate into the directory containing the Synthetics project and run the journeys in there.
+By default, the <code class="docutils literal notranslate"><span class="pre">&#64;elastic/synthetics</span></code> runner will only run files matching the filename <code class="docutils literal notranslate"><span class="pre">*.journey.(ts|js)*</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run tests on the current directory. The dot `.` indicates</span>
+<span class="c1"># that it should run all tests in the current directory.</span>
+npx<span class="w"> </span>@elastic/synthetics<span class="w"> </span>.
+</pre></div>
+</div>
+<div id="synthetics-test-inline"></div>
+<section id="test-an-inline-monitor">
+<h3>Test an inline monitor<a class="headerlink" href="#test-an-inline-monitor" title="Link to this heading">¶</a></h3>
+<p>To test an inline monitor’s journey locally, pipe the inline journey into the <code class="docutils literal notranslate"><span class="pre">npx</span> <span class="pre">&#64;elastic/synthetics</span></code> command.</p>
+<p>Assume, for example, that your inline monitor includes the following code:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">step</span><span class="p">(</span><span class="s1">&#39;load homepage&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="s1">&#39;https://www.elastic.co&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">step</span><span class="p">(</span><span class="s1">&#39;hover over products menu&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">hover</span><span class="p">(</span><span class="s1">&#39;css=[data-nav-item=products]&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>To run that journey locally, you can save that code to a file and pipe the file’s contents into <code class="docutils literal notranslate"><span class="pre">&#64;elastic-synthetics</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>path/to/sample.js<span class="w"> </span><span class="p">|</span><span class="w"> </span>npx<span class="w"> </span>@elastic/synthetics<span class="w"> </span>--inline
+</pre></div>
+</div>
+<p>And you’ll get a response like the following:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Journey:<span class="w"> </span>inline
+<span class="w">   </span>✓<span class="w">  </span>Step:<span class="w"> </span><span class="s1">&#39;load homepage&#39;</span><span class="w"> </span>succeeded<span class="w"> </span><span class="o">(</span><span class="m">1831</span><span class="w"> </span>ms<span class="o">)</span>
+<span class="w">   </span>✓<span class="w">  </span>Step:<span class="w"> </span><span class="s1">&#39;hover over products menu&#39;</span><span class="w"> </span>succeeded<span class="w"> </span><span class="o">(</span><span class="m">97</span><span class="w"> </span>ms<span class="o">)</span>
+
+<span class="w"> </span><span class="m">2</span><span class="w"> </span>passed<span class="w"> </span><span class="o">(</span><span class="m">2511</span><span class="w"> </span>ms<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="synthetics-manage-retention.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Manage data retention</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="synthetics-scale-and-architect.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Scale and architect a Synthetics deployment</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Elasticsearch B.V. All Rights Reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Write a synthetic test</a><ul>
+<li><a class="reference internal" href="#syntax-overview">Syntax overview</a></li>
+<li><a class="reference internal" href="#create-a-journey">Create a journey</a><ul>
+<li><a class="reference internal" href="#arguments">Arguments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#add-steps">Add steps</a><ul>
+<li><a class="reference internal" href="#id1">Arguments</a></li>
+<li><a class="reference internal" href="#playwright-syntax">Playwright syntax</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#make-assertions">Make assertions</a></li>
+<li><a class="reference internal" href="#make-api-requests">Make API requests</a></li>
+<li><a class="reference internal" href="#set-up-and-remove-a-global-state">Set up and remove a global state</a></li>
+<li><a class="reference internal" href="#import-npm-packages">Import NPM packages</a></li>
+<li><a class="reference internal" href="#sample-synthetic-test">Sample synthetic test</a></li>
+<li><a class="reference internal" href="#test-locally">Test locally</a><ul>
+<li><a class="reference internal" href="#test-an-inline-monitor">Test an inline monitor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=140f00c8"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    </body>
+</html>

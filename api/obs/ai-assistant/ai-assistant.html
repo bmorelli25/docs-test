@@ -1,0 +1,875 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="SLOs" href="../slos/slos.html" /><link rel="prev" title="Infrastructure monitoring" href="../infra-monitoring/infra-monitoring.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06.dev1 -->
+        <title>AI Assistant - Elastic documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=4a3d756c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <!-- DESKTOP HEADER -->
+  <header class="header">
+    <a class="header__logo" href="#">CWK</a>
+    <div class="header__toggle">
+        <i class="bx bx-menu" id="header-toggle"></i>
+    </div>
+    <nav class="nav" id="nav-menu">
+        <div class="nav__content bg-grid">
+            <a class="nav__profil" href="#">
+                <div class="nav__img">
+                    <img src="https://codwerk.github.io/assets/images/logo_codwerk-new.png" alt="" />
+                </div>
+                <div>
+                    <span class="nav__name">Elastic Docs</span>
+                </div>
+            </a>
+            <div class="nav__menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a class="nav__link" href="#">Get Started</a></li>
+                    <li class="nav__item dropdown">
+                        <a class="nav__link dropdown__link" href="#">
+                            Solutions<i class="bx bx-chevron-down dropdown__icon"></i>
+                            <ul class="dropdown__menu">
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Search</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Security</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Observability</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="nav__item dropdown">
+                      <a class="nav__link dropdown__link" href="#">
+                          Platform
+                          <i class="bx bx-chevron-down dropdown__icon"></i>
+                          <ul class="dropdown__menu">
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Elasticsearch</a>
+                              </li>
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Logstash</a>
+                              </li>
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Beats</a>
+                              </li>
+                          </ul>
+                      </a>
+                  </li>
+                    <li class="nav__item dropdown">
+                        <a class="nav__link dropdown__link" href="#">
+                            API
+                            <i class="bx bx-chevron-down dropdown__icon"></i>
+                            <ul class="dropdown__menu">
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Elasticsearch</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Logstash</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Beats</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Release Docs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Elastic  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">Elastic  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search me" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Observability</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Observability</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../observability-overview.html">Observability overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elastic-entity-model.html">Elastic Entity Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/create-an-observability-project.html">Create an Elastic Observability project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/billing.html">Observability billing dimensions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../apm/index.html">Application performance monitoring (APM)</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Application performance monitoring (APM)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-distributed-tracing.html">Distributed tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-metrics.html">Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-stacktrace-collection.html">Stacktrace collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-create-custom-links.html">Create custom links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-data-types.html">APM data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-overview.html">Navigate the Applications UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-reference.html">Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-get-started.html">Get started with traces and APM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-kibana-settings.html">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-logs.html">Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling.html">Transaction sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-observe-lambda-functions.html">Observe Lambda functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-service-overview.html">Service Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-transactions.html">Transactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-track-deployments-with-annotations.html">Track deployments with annotations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-traces.html">Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/new-experience-services.html">New services experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-query-your-data.html">Query your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-errors.html">Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-filter-your-data.html">Filter your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-reduce-your-data-usage.html">Reduce your data usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-view-and-analyze-traces.html">View and analyze traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-service-map.html">Service map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-integrate-with-machine-learning.html">Integrate with machine learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-problems.html">Troubleshooting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-problems.html#no-data-is-indexed">No data is indexed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-response-codes.html">Troubleshooting two</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-response-codes.html#http-400-data-decoding-error-data-validation-error">HTTP 400: Data decoding error / Data validation error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-send-traces-to-elastic.html">Send APM data to Elastic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling/configure-head-based-sampling.html">tran sampl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling/configure-head-based-sampling.html#id1">tran sampl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-compress-spans.html">Compress spans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-find-transaction-latency-and-failure-correlations.html">Find transaction latency and failure correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-dependencies.html">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-trace-sample-timeline.html">Trace sample timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-server-api.html">Managed intake service event API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-infrastructure.html">Infrastructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-keep-data-secure.html">Keep APM data secure</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../logging/index.html">Log monitoring</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Log monitoring</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../logging/get-started-with-logs.html">Get started with system logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/stream-log-files.html">Stream any log file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/correlate-application-logs.html">Stream application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/plaintext-application-logs.html">Plaintext application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/ecs-application-logs.html">ECS formatted application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/send-application-logs.html">PRODUCT_NAME log sending</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/parse-log-data.html">Parse and route logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/filter-and-aggregate-logs.html">Filter and aggregate logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/view-and-monitor-logs.html">Explore logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/monitor-datasets.html">Monitor log data set quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/add-logs-service-name.html">Add a service name to logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/run-log-pattern-analysis.html">Run a pattern analysis on log data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/troubleshoot-logs.html">Troubleshoot logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../synthetics/index.html">Synthetics</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Synthetics</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-lightweight.html">Configure lightweight monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-manage-monitors.html">Manage monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-get-started-ui.html">Create monitors in the Synthetics UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-scale-and-architect.html">Scale and architect a Synthetics deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-create-test.html">Write a synthetic test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-manage-retention.html">Manage data retention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-configuration.html">Configure a Synthetics project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-params-secrets.html">Work with params and secrets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-settings.html">Configure Synthetics settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-get-started-project.html">Create monitors with a Synthetics project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-command-reference.html">Use the Synthetics CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-intro.html">Synthetic monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-journeys.html">Scripting browser monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-private-location.html">Monitor resources on private networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-recorder.html">Use the Synthetics Recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-recorder.html#record-a-journey">Record a journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-recorder.html#edit-a-journey">Edit a journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-recorder.html#test-the-journey">Test the journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-recorder.html#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-analyze.html">Analyze data from synthetic monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-troubleshooting.html">Troubleshooting Synthetics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-monitor-use.html">Configure individual browser monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-feature-roles.html">Grant users access to secured resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../synthetics/synthetics-security-encryption.html">Synthetics Encryption and Security</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../alerting/index.html">Create and manage rules</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Create and manage rules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-slo-burn-rate-alert-rule.html">Create an SLO burn rate rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/triage-threshold-breaches.html">Triage threshold breaches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/view-alerts.html">View alerts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-inventory-threshold-alert-rule.html">Create an inventory rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/alerting.html">Alerting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/aiops-generate-anomaly-alerts.html">Create an anomaly detection rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-anomaly-alert-rule.html">Create an APM anomaly rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/aggregation-options.html">Aggregation options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-latency-threshold-alert-rule.html">Create a latency threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/triage-slo-burn-rate-breaches.html">Triage SLO burn rate breaches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-elasticsearch-query-alert-rule.html">Create an Elasticsearch query rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-custom-threshold-alert-rule.html">Create a custom threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/alerting-connectors.html">Alerting connectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-error-count-threshold-alert-rule.html">Create an error count threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-failed-transaction-rate-threshold-alert-rule.html">Create a failed transaction rate threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/rate-aggregation.html">Rate aggregation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../cases/index.html">Cases</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Cases</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cases/manage-cases-settings.html">Configure case settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cases/create-manage-cases.html">Create and manage cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="../unsorted/index.html">Unsorted</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Unsorted</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-elastic-apm-agents.html">Elastic APM agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-collect-metrics.html">Collect metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-resource-attributes.html">Resource attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-opentelemetry-apisdk-with-elastic-apm-agents.html">OpenTelemetry API/SDK with Elastic APM agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-limitations.html">Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-aws-lambda-functions.html">AWS Lambda functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry.html">OpenTelemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-opentelemetry-native-support.html">OpenTelemetry native support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-other-execution-environments.html">AWS Lambda support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html">Detect anomalies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html#create-and-run-an-anomaly-detection-job">Create and run an anomaly detection job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html#view-the-results">View the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-forecast-anomaly.html">Forecast future behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-tune-anomaly-detection-job.html">Tune your anomaly detection job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-change-points.html">Detect change points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-analyze-spikes.html">Analyze log spikes and drops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops.html">AIOps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dashboards/dashboards-and-visualizations.html">Dashboards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/metrics-app-fields.html">Required fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/get-started-with-metrics.html">Get started with system metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/metrics-reference.html">Metrics reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/analyze-hosts.html">Analyze and compare hosts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/detect-metric-anomalies.html">Detect metric anomalies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/kubernetes-pod-metrics.html">Kubernetes pod metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/configure-infra-settings.html">Configure settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/docker-container-metrics.html">Docker container metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/view-infrastructure-metrics.html">View infrastructure metrics by resource type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/host-metrics.html">Host metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/aws-metrics.html">AWS metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/infra-monitoring.html">Infrastructure monitoring</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">AI Assistant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slos/slos.html">SLOs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slos/create-an-slo.html">Create an SLO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../search/index.html">Elastic Search</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Elastic Search</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../search/bucket-1/index.html">Bucket 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../search/bucket-2/index.html">Bucket 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sec/index.html">Elastic Security</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Elastic Security</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../sec/bucket-1/index.html">Bucket 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sec/bucket-2/index.html">Bucket 2</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../../_sources/obs/ai-assistant/ai-assistant.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="ai-assistant">
+<h1>AI Assistant<a class="headerlink" href="#ai-assistant" title="Link to this heading">¶</a></h1>
+<p><DocBadge template="technical preview" /></p>
+<p>The AI Assistant uses generative AI to provide:</p>
+<ul class="simple">
+<li><p><strong>Chat</strong>: Have conversations with the AI Assistant. Chat uses function calling to request, analyze, and visualize your data.</p></li>
+<li><p><strong>Contextual insights</strong>: Open prompts throughout Observability that explain errors and messages and suggest remediation.</p></li>
+</ul>
+<p><img alt="Observability AI assistant preview" src="../../_images/ai-assistant-overview.gif" /></p>
+<p>The AI Assistant integrates with your large language model (LLM) provider through our supported Elastic connectors:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://example.co">OpenAI connector</a>/openai-action-type.html) for OpenAI or Azure OpenAI Service.</p></li>
+<li><p><a class="reference external" href="http://example.co">Amazon Bedrock connector</a>/bedrock-action-type.html) for Amazon Bedrock, specifically for the Claude models.</p></li>
+</ul>
+<DocCallOut title="Important" color="warning">
+The AI Assistant is powered by an integration with your large language model (LLM) provider.
+LLMs are known to sometimes present incorrect information as if it's correct.
+Elastic supports configuration and connection to the LLM provider and your knowledge base,
+but is not responsible for the LLM's responses.
+</DocCallOut>
+<DocCallOut title="Important" color="warning">
+Also, the data you provide to the Observability AI assistant is _not_ anonymized, and is stored and processed by the third-party AI provider. This includes any data used in conversations for analysis or context, such as alert or event data, detection rule configurations, and queries. Therefore, be careful about sharing any confidential or sensitive details while using this feature.
+</DocCallOut>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<p>The AI assistant requires the following:</p>
+<ul class="simple">
+<li><p>An account with a third-party generative AI provider that supports function calling. The Observability AI Assistant supports the following providers:</p>
+<ul>
+<li><p>OpenAI <code class="docutils literal notranslate"><span class="pre">gpt-4</span></code>+.</p></li>
+<li><p>Azure OpenAI Service <code class="docutils literal notranslate"><span class="pre">gpt-4</span></code>(0613) or <code class="docutils literal notranslate"><span class="pre">gpt-4-32k</span></code>(0613) with API version <code class="docutils literal notranslate"><span class="pre">2023-07-01-preview</span></code> or more recent.</p></li>
+<li><p>AWS Bedrock, specifically the Anthropic Claude models.</p></li>
+</ul>
+</li>
+<li><p>The knowledge base requires a 4 GB PRODUCT_NAME node.</p></li>
+</ul>
+</section>
+<section id="your-data-and-the-ai-assistant">
+<h2>Your data and the AI Assistant<a class="headerlink" href="#your-data-and-the-ai-assistant" title="Link to this heading">¶</a></h2>
+<p>Elastic does not use customer data for model training. This includes anything you send the model, such as alert or event data, detection rule configurations, queries, and prompts. However, any data you provide to the AI Assistant will be processed by the third-party provider you chose when setting up the OpenAI connector as part of the assistant setup.</p>
+<p>Elastic does not control third-party tools, and assumes no responsibility or liability for their content, operation, or use, nor for any loss or damage that may arise from your using such tools. Please exercise caution when using AI tools with personal, sensitive, or confidential information. Any data you submit may be used by the provider for AI training or other purposes. There is no guarantee that the provider will keep any information you provide secure or confidential. You should familiarize yourself with the privacy practices and terms of use of any generative AI tools prior to use.</p>
+</section>
+<section id="set-up-the-ai-assistant">
+<h2>Set up the AI Assistant<a class="headerlink" href="#set-up-the-ai-assistant" title="Link to this heading">¶</a></h2>
+<p>To set up the AI Assistant:</p>
+<ol class="arabic simple">
+<li><p>Create an authentication key with your AI provider to authenticate requests from the AI Assistant. You’ll use this in the next step. Refer to your provider’s documentation for information about creating authentication keys:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://platform.openai.com/docs/api-reference">OpenAI API keys</a></p></li>
+<li><p><a class="reference external" href="https://learn.microsoft.com/en-us/azure/cognitive-services/openai/reference">Azure OpenAI Service API keys</a></p></li>
+<li><p><a class="reference external" href="https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html">Amazon Bedrock authentication keys and secrets</a></p></li>
+</ul>
+</li>
+<li><p>From <strong>Project settings</strong> → <strong>Management</strong> → <strong>Connectors</strong>, create an <a class="reference external" href="http://example.co">OpenAI</a>/openai-action-type.html) or <a class="reference external" href="http://example.co">Amazon Bedrock</a>/bedrock-action-type.html) connector.</p></li>
+<li><p>Authenticate communication between Observability and the AI provider by providing the following information:</p>
+<ol class="arabic simple">
+<li><p>In the <strong>URL</strong> field, enter the AI provider’s API endpoint URL.</p></li>
+<li><p>Under <strong>Authentication</strong>, enter the API key or access key/secret you created in the previous step.</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="add-data-to-the-ai-assistant-knowledge-base">
+<h2>Add data to the AI Assistant knowledge base<a class="headerlink" href="#add-data-to-the-ai-assistant-knowledge-base" title="Link to this heading">¶</a></h2>
+<DocCallOut title="Important" color="warning">
+**If you started using the AI Assistant in technical preview**,
+any knowledge base articles you created using ELSER v1 will need to be reindexed or upgraded before they can be used.
+Going forward, you must create knowledge base articles using ELSER v2.
+You can either:
+<ul class="simple">
+<li><p>Clear all old knowledge base articles manually and reindex them.</p></li>
+<li><p>Upgrade all knowledge base articles indexed with ELSER v1 to ELSER v2 using a <a class="reference external" href="https://github.com/elastic/elasticsearch-labs/blob/main/notebooks/model-upgrades/upgrading-index-to-use-elser.ipynb">Python script</a>.
+</DocCallOut></p></li>
+</ul>
+<p>The AI Assistant uses <a class="reference external" href="http://example.co">ELSER</a>/ml-nlp-elser.html), Elastic’s semantic search engine, to recall data from its internal knowledge base index to create retrieval augmented generation (RAG) responses. Adding data such as Runbooks, GitHub issues, internal documentation, and Slack messages to the knowledge base gives the AI Assistant context to provide more specific assistance.</p>
+<DocCallOut title="Note">
+Your AI provider may collect telemetry when using the AI Assistant. Contact your AI provider for information on how data is collected.
+</DocCallOut>
+<p>You can add information to the knowledge base by asking the AI Assistant to remember something while chatting (for example, “remember this for next time”). The assistant will create a summary of the information and add it to the knowledge base.</p>
+<p>You can also add external data to the knowledge base either in the Project Settings UI or using the PRODUCT_NAME Index API.</p>
+<section id="use-the-ui">
+<h3>Use the UI<a class="headerlink" href="#use-the-ui" title="Link to this heading">¶</a></h3>
+<p>To add external data to the knowledge base in the Project Settings UI:</p>
+<ol class="arabic">
+<li><p>Go to <strong>Project Settings</strong>.</p></li>
+<li><p>In the <em>Other</em> section, click <strong>AI assistant for Observability settings</strong>.</p></li>
+<li><p>Then select the <strong>Elastic AI Assistant for Observability</strong>.</p></li>
+<li><p>Switch to the <strong>Knowledge base</strong> tab.</p></li>
+<li><p>Click the <strong>New entry</strong> button, and choose either:</p>
+<ul>
+<li><p><strong>Single entry</strong>: Write content for a single entry in the UI.</p></li>
+<li><p><strong>Bulk import</strong>: Upload a newline delimited JSON (<code class="docutils literal notranslate"><span class="pre">ndjson</span></code>) file containing a list of entries to add to the knowledge base.
+Each object should conform to the following format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;a_unique_human_readable_id&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Contents of item&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="use-the-product-name-index-api">
+<h3>Use the PRODUCT_NAME Index API<a class="headerlink" href="#use-the-product-name-index-api" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Ingest external data (GitHub issues, Markdown files, Jira tickets, text files, etc.) into PRODUCT_NAME using the PRODUCT_NAME <a class="reference external" href="http://example.co">Index API</a>/docs-index_.html).</p></li>
+<li><p>Reindex your data into the AI Assistant’s knowledge base index by completing the following query in <strong>Developer Tools</strong> → <strong>Console</strong>. Update the following fields before reindexing:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">InternalDocsIndex</span></code>: Name of the index where your internal documents are stored.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">text_field</span></code>: Name of the field containing your internal documents’ text.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code>: Name of the timestamp field in your internal documents.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span></code>: If <code class="docutils literal notranslate"><span class="pre">true</span></code>, the document is available to all users with access to your Observability project. If <code class="docutils literal notranslate"><span class="pre">false</span></code>, the document is restricted to the user indicated in the following <code class="docutils literal notranslate"><span class="pre">user.name</span></code> field.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user.name</span></code> (optional): If defined, restricts the internal document’s availability to a specific user.</p></li>
+<li><p>You can add a query filter to index specific documents.</p></li>
+</ul>
+</li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">POST _reindex</span>
+<span class="go">{</span>
+<span class="go">    &quot;source&quot;: {</span>
+<span class="go">        &quot;index&quot;: &quot;&lt;InternalDocsIndex&gt;&quot;,</span>
+<span class="go">        &quot;_source&quot;: [</span>
+<span class="go">            &quot;&lt;text_field&gt;&quot;,</span>
+<span class="go">            &quot;&lt;timestamp&gt;&quot;,</span>
+<span class="go">            &quot;namespace&quot;,</span>
+<span class="go">            &quot;is_correction&quot;,</span>
+<span class="go">            &quot;public&quot;,</span>
+<span class="go">            &quot;confidence&quot;</span>
+<span class="go">        ]</span>
+<span class="go">    },</span>
+<span class="go">    &quot;dest&quot;: {</span>
+<span class="go">        &quot;index&quot;: &quot;.kibana-observability-ai-assistant-kb-000001&quot;,</span>
+<span class="go">        &quot;pipeline&quot;: &quot;.kibana-observability-ai-assistant-kb-ingest-pipeline&quot;</span>
+<span class="go">    },</span>
+<span class="go">    &quot;script&quot;: {</span>
+<span class="go">        &quot;inline&quot;: &quot;ctx._source.text = ctx._source.remove(\&quot;&lt;text_field&gt;\&quot;);ctx._source.namespace=\&quot;&lt;space&gt;\&quot;;ctx._source.is_correction=false;ctx._source.public=&lt;public&gt;;ctx._source.confidence=\&quot;high\&quot;;ctx._source[&#39;@timestamp&#39;] = ctx._source.remove(\&quot;&lt;timestamp&gt;\&quot;);ctx._source[&#39;user.name&#39;] = \&quot;&lt;user.name&gt;\&quot;&quot;</span>
+<span class="go">    }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="interact-with-the-ai-assistant">
+<h2>Interact with the AI Assistant<a class="headerlink" href="#interact-with-the-ai-assistant" title="Link to this heading">¶</a></h2>
+<p>You can chat with the AI Assistant or interact with contextual insights located throughout Observability.
+See the following sections for more on interacting with the AI Assistant.</p>
+<DocCallOut title="Tip">
+After every answer the LLM provides, let us know if the answer was helpful.
+Your feedback helps us improve the AI Assistant!
+</DocCallOut>
+<section id="chat-with-the-assistant">
+<h3>Chat with the assistant<a class="headerlink" href="#chat-with-the-assistant" title="Link to this heading">¶</a></h3>
+<p>Click <strong>AI Assistant</strong> in the upper-right corner where available to start the chat:</p>
+<p><img alt="Observability AI assistant preview" src="../../_images/ai-assistant-button.png" /></p>
+<p>This opens the AI Assistant flyout, where you can ask the assistant questions about your instance:</p>
+<p><img alt="Observability AI assistant chat" src="../../_images/ai-assistant-chat.png" /></p>
+</section>
+<section id="suggest-functions">
+<h3>Suggest functions<a class="headerlink" href="#suggest-functions" title="Link to this heading">¶</a></h3>
+<DocCallOut template="beta" />
+<p>The AI Assistant uses several functions to include relevant context in the chat conversation through text, data, and visual components. Both you and the AI Assistant can suggest functions. You can also edit the AI Assistant’s function suggestions and inspect function responses. For example, you could use the <code class="docutils literal notranslate"><span class="pre">kibana</span></code> function to call a PRODUCT_NAME API on your behalf.</p>
+<p>You can suggest the following functions:</p>
+<p>&lt;DocTable columns={[{ title: “Function”, “width”: “30%”  }, { title: “Description”, “width”: “70%”  }]}&gt;
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">alerts</span></code></DocCell>
+<DocCell>Get alerts for Observability.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">elasticsearch</span></code></DocCell>
+<DocCell>Call PRODUCT_NAME APIs on your behalf.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">kibana</span></code></DocCell>
+<DocCell>Call PRODUCT_NAME APIs on your behalf.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">summarize</span></code></DocCell>
+<DocCell>Summarize parts of the conversation.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">visualize_query</span></code></DocCell>
+<DocCell>Visualize charts for ES|QL queries.</DocCell>
+</DocRow>
+</DocTable></p>
+<p>Additional functions are available when your cluster has APM data:</p>
+<p>&lt;DocTable columns={[{ title: “Function”, “width”: “30%”  }, { title: “Description”, “width”: “70%”  }]}&gt;
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">get_apm_correlations</span></code></DocCell>
+<DocCell>Get field values that are more prominent in the foreground set than the background set. This can be useful in determining which attributes (such as <code class="docutils literal notranslate"><span class="pre">error.message</span></code>, <code class="docutils literal notranslate"><span class="pre">service.node.name</span></code>, or <code class="docutils literal notranslate"><span class="pre">transaction.name</span></code>) are contributing to, for instance, a higher latency. Another option is a time-based comparison, where you compare before and after a change point.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">get_apm_downstream_dependencies</span></code></DocCell>
+<DocCell>Get the downstream dependencies (services or uninstrumented backends) for a service. Map the downstream dependency name to a service by returning both <code class="docutils literal notranslate"><span class="pre">span.destination.service.resource</span></code> and <code class="docutils literal notranslate"><span class="pre">service.name</span></code>. Use this to drill down further if needed.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">get_apm_error_document</span></code></DocCell>
+<DocCell>Get a sample error document based on the grouping name. This also includes the stacktrace of the error, which might hint to the cause.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">get_apm_service_summary</span></code></DocCell>
+<DocCell>Get a summary of a single service, including the language, service version, deployments, the environments, and the infrastructure that it is running in. For example, the number of pods and a list of their downstream dependencies. It also returns active alerts and anomalies.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">get_apm_services_list</span></code></DocCell>
+<DocCell>Get the list of monitored services, their health statuses, and alerts.</DocCell>
+</DocRow>
+<DocRow>
+<DocCell><code class="docutils literal notranslate"><span class="pre">get_apm_timeseries</span></code></DocCell>
+<DocCell>Display different APM metrics (such as throughput, failure rate, or latency) for any service or all services and any or all of their dependencies. Displayed both as a time series and as a single statistic. Additionally, the function  returns any changes, such as spikes, step and trend changes, or dips. You can also use it to compare data by requesting two different time ranges, or, for example, two different service versions.</DocCell>
+</DocRow>
+</DocTable></p>
+</section>
+<section id="use-contextual-prompts">
+<h3>Use contextual prompts<a class="headerlink" href="#use-contextual-prompts" title="Link to this heading">¶</a></h3>
+<p>AI Assistant contextual prompts throughout Observability provide the following information:</p>
+<ul class="simple">
+<li><p><strong>Alerts</strong>: Provides possible causes and remediation suggestions for log rate changes.</p></li>
+<li><p><strong>Application performance monitoring (APM)</strong>: Explains APM errors and provides remediation suggestions.</p></li>
+<li><p><strong>Logs</strong>: Explains log messages and generates search patterns to find similar issues.</p></li>
+</ul>
+<!--  Not included in initial serverless launch-->
+<!--  - **Universal Profiling**: explains the most expensive libraries and functions in your fleet and provides optimization suggestions.-->
+<!--  - **Infrastructure Observability**: explains the processes running on a host.-->
+<p>For example, in the log details, you’ll see prompts for <strong>What’s this message?</strong> and <strong>How do I find similar log messages?</strong>:</p>
+<p><img alt="Observability AI assistant example prompts for logs" src="../../_images/ai-assistant-logs-prompts.png" /></p>
+<p>Clicking a prompt generates a message specific to that log entry.
+You can continue a conversation from a contextual prompt by clicking <strong>Start chat</strong> to open the AI Assistant chat.</p>
+<p><img alt="Observability AI assistant example" src="../../_images/ai-assistant-logs.png" /></p>
+</section>
+<section id="add-the-ai-assistant-connector-to-alerting-workflows">
+<h3>Add the AI Assistant connector to alerting workflows<a class="headerlink" href="#add-the-ai-assistant-connector-to-alerting-workflows" title="Link to this heading">¶</a></h3>
+<p>You can use the Observability AI Assistant connector to add AI-generated insights and custom actions to your alerting workflows.
+To do this:</p>
+<ol class="arabic simple">
+<li><p><DocLink slug="/serverless/observability/create-manage-rules" text="Create (or edit) an alerting rule" /> and specify the conditions that must be met for the alert to fire.</p></li>
+<li><p>Under <strong>Actions</strong>, select the <strong>Observability AI Assistant</strong> connector type.</p></li>
+<li><p>In the <strong>Connector</strong> list, select the AI connector you created when you set up the assistant.</p></li>
+<li><p>In the <strong>Message</strong> field, specify the message to send to the assistant:</p></li>
+</ol>
+<p><img alt="Add an Observability AI assistant action while creating a rule in the Observability UI" src="../../_images/obs-ai-assistant-action-high-cpu.png" /></p>
+<p>You can ask the assistant to generate a report of the alert that fired,
+recall any information or potential resolutions of past occurrences stored in the knowledge base,
+provide troubleshooting guidance and resolution steps,
+and also include other active alerts that may be related.
+As a last step, you can ask the assistant to trigger an action,
+such as sending the report (or any other message) to a Slack webhook.</p>
+<DocCallOut title="NOTE">
+    Currently you can only send messages to Slack, email, Jira, PagerDuty, or a webhook.
+    Additional actions will be added in the future.
+</DocCallOut>
+<p>When the alert fires, contextual details about the event—such as when the alert fired,
+the service or host impacted, and the threshold breached—are sent to the AI Assistant,
+along with the message provided during configuration.
+The AI Assistant runs the tasks requested in the message and creates a conversation you can use to chat with the assistant:</p>
+<p><img alt="AI Assistant conversation created in response to an alert" src="../../_images/obs-ai-assistant-output.png" /></p>
+<DocCallOut color="warning" title="Important">
+    Conversations created by the AI Assistant are public and accessible to every user with permissions to use the assistant.
+</DocCallOut>
+<p>It might take a minute or two for the AI Assistant to process the message and create the conversation.</p>
+<p>Note that overly broad prompts may result in the request exceeding token limits.
+For more information, refer to <DocLink slug="/serverless/observability/ai-assistant" section="token-limits" />
+Also, attempting to analyze several alerts in a single connector execution may cause you to exceed the function call limit.
+If this happens, modify the message specified in the connector configuration to avoid exceeding limits.</p>
+<p>When asked to send a message to another connector, such as Slack,
+the AI Assistant attempts to include a link to the generated conversation.</p>
+<p><img alt="Message sent by Slack by the AI Assistant includes a link to the conversation" src="../../_images/obs-ai-assistant-slack-message.png" /></p>
+<p>The Observability AI Assistant connector is called when the alert fires and when it recovers.</p>
+<p>To learn more about alerting, actions, and connectors, refer to <DocLink slug="/serverless/observability/alerting" />.</p>
+</section>
+</section>
+<section id="known-issues">
+<h2>Known issues<a class="headerlink" href="#known-issues" title="Link to this heading">¶</a></h2>
+<div id="token-limits"></div>
+<section id="token-limits">
+<h3>Token limits<a class="headerlink" href="#token-limits" title="Link to this heading">¶</a></h3>
+<p>Most LLMs have a set number of tokens they can manage in single a conversation.
+When you reach the token limit, the LLM will throw an error, and Elastic will display a “Token limit reached” error.
+The exact number of tokens that the LLM can support depends on the LLM provider and model you’re using.
+If you are using an OpenAI connector, you can monitor token usage in <strong>OpenAI Token Usage</strong> dashboard.
+For more information, refer to the <a class="reference external" href="http://example.co">OpenAI Connector documentation</a>/openai-action-type.html#openai-connector-token-dashboard).</p>
+<p><span id="hello-world"></span></p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../slos/slos.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">SLOs</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../infra-monitoring/infra-monitoring.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Infrastructure monitoring</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Elasticsearch B.V. All Rights Reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">AI Assistant</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#your-data-and-the-ai-assistant">Your data and the AI Assistant</a></li>
+<li><a class="reference internal" href="#set-up-the-ai-assistant">Set up the AI Assistant</a></li>
+<li><a class="reference internal" href="#add-data-to-the-ai-assistant-knowledge-base">Add data to the AI Assistant knowledge base</a><ul>
+<li><a class="reference internal" href="#use-the-ui">Use the UI</a></li>
+<li><a class="reference internal" href="#use-the-product-name-index-api">Use the PRODUCT_NAME Index API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interact-with-the-ai-assistant">Interact with the AI Assistant</a><ul>
+<li><a class="reference internal" href="#chat-with-the-assistant">Chat with the assistant</a></li>
+<li><a class="reference internal" href="#suggest-functions">Suggest functions</a></li>
+<li><a class="reference internal" href="#use-contextual-prompts">Use contextual prompts</a></li>
+<li><a class="reference internal" href="#add-the-ai-assistant-connector-to-alerting-workflows">Add the AI Assistant connector to alerting workflows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues">Known issues</a><ul>
+<li><a class="reference internal" href="#token-limits">Token limits</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=140f00c8"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    </body>
+</html>

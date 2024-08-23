@@ -1,0 +1,884 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Troubleshooting Synthetics" href="synthetics-troubleshooting.html" /><link rel="prev" title="Use the Synthetics Recorder" href="synthetics-recorder.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06.dev1 -->
+        <title>Analyze data from synthetic monitors - Elastic documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=4a3d756c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <!-- DESKTOP HEADER -->
+  <header class="header">
+    <a class="header__logo" href="#">CWK</a>
+    <div class="header__toggle">
+        <i class="bx bx-menu" id="header-toggle"></i>
+    </div>
+    <nav class="nav" id="nav-menu">
+        <div class="nav__content bg-grid">
+            <a class="nav__profil" href="#">
+                <div class="nav__img">
+                    <img src="https://codwerk.github.io/assets/images/logo_codwerk-new.png" alt="" />
+                </div>
+                <div>
+                    <span class="nav__name">Elastic Docs</span>
+                </div>
+            </a>
+            <div class="nav__menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a class="nav__link" href="#">Get Started</a></li>
+                    <li class="nav__item dropdown">
+                        <a class="nav__link dropdown__link" href="#">
+                            Solutions<i class="bx bx-chevron-down dropdown__icon"></i>
+                            <ul class="dropdown__menu">
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Search</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Security</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Observability</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="nav__item dropdown">
+                      <a class="nav__link dropdown__link" href="#">
+                          Platform
+                          <i class="bx bx-chevron-down dropdown__icon"></i>
+                          <ul class="dropdown__menu">
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Elasticsearch</a>
+                              </li>
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Logstash</a>
+                              </li>
+                              <li class="dropdown__item">
+                                  <a class="nav__link" href="#">Beats</a>
+                              </li>
+                          </ul>
+                      </a>
+                  </li>
+                    <li class="nav__item dropdown">
+                        <a class="nav__link dropdown__link" href="#">
+                            API
+                            <i class="bx bx-chevron-down dropdown__icon"></i>
+                            <ul class="dropdown__menu">
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Elasticsearch</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Logstash</a>
+                                </li>
+                                <li class="dropdown__item">
+                                    <a class="nav__link" href="#">Beats</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Release Docs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Elastic  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">Elastic  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search me" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Observability</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Observability</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../observability-overview.html">Observability overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elastic-entity-model.html">Elastic Entity Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/create-an-observability-project.html">Create an Elastic Observability project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../projects/billing.html">Observability billing dimensions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../apm/index.html">Application performance monitoring (APM)</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Application performance monitoring (APM)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-distributed-tracing.html">Distributed tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-metrics.html">Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-stacktrace-collection.html">Stacktrace collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-create-custom-links.html">Create custom links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-data-types.html">APM data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-overview.html">Navigate the Applications UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-reference.html">Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-get-started.html">Get started with traces and APM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-kibana-settings.html">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-logs.html">Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling.html">Transaction sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-observe-lambda-functions.html">Observe Lambda functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-service-overview.html">Service Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-transactions.html">Transactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-track-deployments-with-annotations.html">Track deployments with annotations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-traces.html">Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/new-experience-services.html">New services experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-query-your-data.html">Query your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-errors.html">Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-filter-your-data.html">Filter your data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-reduce-your-data-usage.html">Reduce your data usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-view-and-analyze-traces.html">View and analyze traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-service-map.html">Service map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-services.html">Services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-integrate-with-machine-learning.html">Integrate with machine learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-problems.html">Troubleshooting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-problems.html#no-data-is-indexed">No data is indexed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-response-codes.html">Troubleshooting two</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-troubleshooting/common-response-codes.html#http-400-data-decoding-error-data-validation-error">HTTP 400: Data decoding error / Data validation error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-send-traces-to-elastic.html">Send APM data to Elastic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling/configure-head-based-sampling.html">tran sampl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-transaction-sampling/configure-head-based-sampling.html#id1">tran sampl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-compress-spans.html">Compress spans</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-find-transaction-latency-and-failure-correlations.html">Find transaction latency and failure correlations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-dependencies.html">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-trace-sample-timeline.html">Trace sample timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-server-api.html">Managed intake service event API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-ui-infrastructure.html">Infrastructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm/apm-keep-data-secure.html">Keep APM data secure</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../logging/index.html">Log monitoring</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Log monitoring</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../logging/get-started-with-logs.html">Get started with system logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/stream-log-files.html">Stream any log file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/correlate-application-logs.html">Stream application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/plaintext-application-logs.html">Plaintext application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/ecs-application-logs.html">ECS formatted application logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/send-application-logs.html">PRODUCT_NAME log sending</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/parse-log-data.html">Parse and route logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/filter-and-aggregate-logs.html">Filter and aggregate logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/view-and-monitor-logs.html">Explore logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/monitor-datasets.html">Monitor log data set quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/add-logs-service-name.html">Add a service name to logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/run-log-pattern-analysis.html">Run a pattern analysis on log data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logging/troubleshoot-logs.html">Troubleshoot logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Synthetics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Synthetics</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="synthetics-lightweight.html">Configure lightweight monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-manage-monitors.html">Manage monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-get-started-ui.html">Create monitors in the Synthetics UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-scale-and-architect.html">Scale and architect a Synthetics deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-create-test.html">Write a synthetic test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-manage-retention.html">Manage data retention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-configuration.html">Configure a Synthetics project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-params-secrets.html">Work with params and secrets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-settings.html">Configure Synthetics settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-get-started-project.html">Create monitors with a Synthetics project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-command-reference.html">Use the Synthetics CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-intro.html">Synthetic monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-journeys.html">Scripting browser monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-private-location.html">Monitor resources on private networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html">Use the Synthetics Recorder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#record-a-journey">Record a journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#edit-a-journey">Edit a journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#test-the-journey">Test the journey</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-recorder.html#export">Export</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Analyze data from synthetic monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-troubleshooting.html">Troubleshooting Synthetics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-monitor-use.html">Configure individual browser monitors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-feature-roles.html">Grant users access to secured resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="synthetics-security-encryption.html">Synthetics Encryption and Security</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../alerting/index.html">Create and manage rules</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Create and manage rules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-slo-burn-rate-alert-rule.html">Create an SLO burn rate rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/triage-threshold-breaches.html">Triage threshold breaches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/view-alerts.html">View alerts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-inventory-threshold-alert-rule.html">Create an inventory rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/alerting.html">Alerting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/aiops-generate-anomaly-alerts.html">Create an anomaly detection rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-anomaly-alert-rule.html">Create an APM anomaly rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/aggregation-options.html">Aggregation options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-latency-threshold-alert-rule.html">Create a latency threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/triage-slo-burn-rate-breaches.html">Triage SLO burn rate breaches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-elasticsearch-query-alert-rule.html">Create an Elasticsearch query rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-custom-threshold-alert-rule.html">Create a custom threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/alerting-connectors.html">Alerting connectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-error-count-threshold-alert-rule.html">Create an error count threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/create-failed-transaction-rate-threshold-alert-rule.html">Create a failed transaction rate threshold rule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../alerting/rate-aggregation.html">Rate aggregation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../cases/index.html">Cases</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Cases</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cases/manage-cases-settings.html">Configure case settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cases/create-manage-cases.html">Create and manage cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../unsorted/index.html">Unsorted</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Unsorted</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-elastic-apm-agents.html">Elastic APM agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-collect-metrics.html">Collect metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-resource-attributes.html">Resource attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-opentelemetry-apisdk-with-elastic-apm-agents.html">OpenTelemetry API/SDK with Elastic APM agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-limitations.html">Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-aws-lambda-functions.html">AWS Lambda functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry.html">OpenTelemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-opentelemetry-native-support.html">OpenTelemetry native support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apm-agents/apm-agents-opentelemetry-other-execution-environments.html">AWS Lambda support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html">Detect anomalies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html#create-and-run-an-anomaly-detection-job">Create and run an anomaly detection job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-anomalies.html#view-the-results">View the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-forecast-anomaly.html">Forecast future behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-tune-anomaly-detection-job.html">Tune your anomaly detection job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-detect-change-points.html">Detect change points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops-analyze-spikes.html">Analyze log spikes and drops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aiops/aiops.html">AIOps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dashboards/dashboards-and-visualizations.html">Dashboards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/metrics-app-fields.html">Required fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/get-started-with-metrics.html">Get started with system metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/metrics-reference.html">Metrics reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/analyze-hosts.html">Analyze and compare hosts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/detect-metric-anomalies.html">Detect metric anomalies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/kubernetes-pod-metrics.html">Kubernetes pod metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/configure-infra-settings.html">Configure settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/docker-container-metrics.html">Docker container metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/view-infrastructure-metrics.html">View infrastructure metrics by resource type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/host-metrics.html">Host metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/aws-metrics.html">AWS metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infra-monitoring/infra-monitoring.html">Infrastructure monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ai-assistant/ai-assistant.html">AI Assistant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slos/slos.html">SLOs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../slos/create-an-slo.html">Create an SLO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../search/index.html">Elastic Search</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Elastic Search</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../search/bucket-1/index.html">Bucket 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../search/bucket-2/index.html">Bucket 2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../sec/index.html">Elastic Security</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Elastic Security</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../sec/bucket-1/index.html">Bucket 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sec/bucket-2/index.html">Bucket 2</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../../_sources/obs/synthetics/synthetics-analyze.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="analyze-data-from-synthetic-monitors">
+<h1>Analyze data from synthetic monitors<a class="headerlink" href="#analyze-data-from-synthetic-monitors" title="Link to this heading">¶</a></h1>
+<p><DocBadge template="technical preview" /></p>
+<div id="synthetics-analyze"></div>
+<p>The Synthetics UI in Observability projects both provides a high-level overview of your service’s
+availability and allows you to dig into details to diagnose what caused downtime.</p>
+<div id="synthetics-analyze-overview"></div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The Synthetics <strong>Overview</strong> tab provides you with a high-level view of all the services you are monitoring
+to help you quickly diagnose outages and other connectivity issues within your network.</p>
+<p>To access this page in your Observability project, go to <strong>Synthetics</strong> → <strong>Overview</strong>.</p>
+<p>This overview includes a snapshot of the current status of all monitors, the number of errors that
+occurred over the last 6 hours, and the number of alerts over the last 12 hours.
+All monitors created using a Synthetics project or using the UI will be listed below with information
+about the location, current status, and duration average.</p>
+<DocCallOut title="Note">
+<p>When you use a single monitor configuration to create monitors in multiple locations, each location
+is listed as a separate monitor as they run as individual monitors and the status and duration average
+can vary by location.</p>
+</DocCallOut>
+<p><img alt="Synthetics UI in an Observability project" src="../../_images/synthetics-monitor-page.png" /></p>
+<p>To get started with your analysis in the Overview tab, you can search for monitors or
+use the filter options including current status (up, down, or disabled),
+monitor type (for example, journey or HTTP), location, and more.</p>
+<p>Then click an individual monitor to see some details in a flyout.
+From there, you can click <strong>Go to monitor</strong> to go to an individual monitor’s page
+to see more details (as described below).</p>
+<div id="synthetics-analyze-individual-monitors"></div>
+</section>
+<section id="all-monitor-types">
+<h2>All monitor types<a class="headerlink" href="#all-monitor-types" title="Link to this heading">¶</a></h2>
+<p>When you go to an individual monitor’s page, you’ll see much more detail about the monitor’s
+performance over time. The details vary by monitor type, but for every monitor at the top of the
+page you’ll see:</p>
+<ul>
+<li><p>The monitor’s <strong>name</strong> with a down arrow icon that you can use to quickly move between monitors.</p></li>
+<li><p>The <strong>location</strong> of the monitor. If the same monitor configuration was used to create monitors in
+multiple locations, you’ll also see a down arrow icon that you can use to quickly move between
+locations that use the same configuration.</p></li>
+<li><p>The latest <strong>status</strong> and when the monitor was <strong>last run</strong>.</p></li>
+<li><p>The <strong><DocIcon type="beaker" title="Experiment" /> Run test manually</strong> button that allows you to run the test on
+demand before the next scheduled run.</p>
+  <DocCallOut title="Note">
+<p>This is only available for monitors running on Elastic’s global managed testing infrastructure.
+It is not available for monitors running on PRODUCT_NAMEs.</p>
+  </DocCallOut>
+</li>
+<li><p>The <strong><DocIcon type="pencil" title="Edit" /> Edit monitor</strong> button that allows you to edit the monitor’s
+configuration.</p></li>
+</ul>
+<p><img alt="Header at the top of the individual monitor page for all monitor types in the Synthetics UI" src="../../_images/synthetics-analyze-individual-monitor-header.png" /></p>
+<p>Each individual monitor’s page has three tabs: Overview, History, and Errors.</p>
+<div id="synthetics-analyze-individual-monitors-overview"></div>
+<section id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>The <strong>Overview</strong> tab has information about the monitor availability, duration, and any errors
+that have occurred since the monitor was created.
+The <em>Duration trends</em> chart displays the timing for each check that was performed in the last 30 days.
+This visualization helps you to gain insights into how quickly requests resolve by the targeted endpoint
+and gives you a sense of how frequently a host or endpoint was down.</p>
+<p><img alt="Details in the Overview tab on the individual monitor page for all monitor types in the Synthetics UI" src="../../_images/synthetics-analyze-individual-monitor-details.png" /></p>
+<div id="synthetics-analyze-individual-monitors-history"></div>
+</section>
+<section id="history">
+<h3>History<a class="headerlink" href="#history" title="Link to this heading">¶</a></h3>
+<p>The <strong>History</strong> tab has information on every time the monitor has run.
+It includes some high-level stats and a complete list of all test runs.
+Use the calendar icon (<DocIcon type="calendar" title="Calendar" />) and search bar
+to filter for runs that occurred in a specific time period.</p>
+<!--  What you might do with this info-->
+<!--  ...-->
+<p>For browser monitors, you can click on any run in the <strong>Test runs</strong> list
+to see the details for that run. Read more about what information is
+included the in <DocLink slug="/serverless/observability/synthetics-analyze" section="details-for-one-run">Details for one run</DocLink> section below.</p>
+<p><img alt="The History tab on the individual monitor page for all monitor types in the Synthetics UI" src="../../_images/synthetics-analyze-individual-monitor-history.png" /></p>
+<p>If the monitor is configured to <DocLink slug="/serverless/observability/synthetics-configuration" section="monitor">retest on failure</DocLink>,
+you’ll see retests listed in the <strong>Test runs</strong> table. Runs that are retests include a
+rerun icon (image:images/icons/refresh.svg[Refresh icon]) next to the result badge.</p>
+<p><img alt="A failed run and a retest in the table of test runs in the Synthetics UI" src="../../_images/synthetics-retest.png" /></p>
+<div id="synthetics-analyze-individual-monitors-errors"></div>
+</section>
+<section id="errors">
+<h3>Errors<a class="headerlink" href="#errors" title="Link to this heading">¶</a></h3>
+<p>The <strong>Errors</strong> tab has information on failed runs.
+If the monitor is configured to <DocLink slug="/serverless/observability/synthetics-configuration" section="monitor">retest on failure</DocLink>,
+failed runs will only result in an error if both the initial run and the rerun fail.
+This can reduce noise related to transient problems.</p>
+<p>The Errors tab includes a high-level overview of all alerts and a complete list of all failures.
+Use the calendar icon (<DocIcon type="calendar" title="Calendar" />) and search bar
+to filter for runs that occurred in a specific time period.</p>
+<!--  What you might do with this info-->
+<!--  ...-->
+<p>For browser monitors, you can click on any run in the <strong>Error</strong> list
+to open an <strong>Error details</strong> page that includes most of the same information
+that is included the in <DocLink slug="/serverless/observability/synthetics-analyze" section="details-for-one-run">Details for one run</DocLink> section below.</p>
+<p><img alt="The Errors tab on the individual monitor page for all monitor types in the Synthetics UI" src="../../_images/synthetics-analyze-individual-monitor-errors.png" /></p>
+<div id="synthetics-analyze-journeys"></div>
+</section>
+</section>
+<section id="browser-monitors">
+<h2>Browser monitors<a class="headerlink" href="#browser-monitors" title="Link to this heading">¶</a></h2>
+<p>For browser monitors, you can look at results at various levels of granularity:</p>
+<ul class="simple">
+<li><p>See an overview of journey runs over time.</p></li>
+<li><p>Drill down into the details of a single run.</p></li>
+<li><p>Drill down further into the details of a single <em>step</em> within a journey.</p></li>
+</ul>
+<div id="journey_runs_over_time"></div>
+<section id="journey-runs-over-time">
+<h3>Journey runs over time<a class="headerlink" href="#journey-runs-over-time" title="Link to this heading">¶</a></h3>
+<p>The journey page on the Overview tab includes:</p>
+<ul class="simple">
+<li><p>An overview of the <strong>last test run</strong> including high-level information for each step.</p></li>
+<li><p><strong>Alerts</strong> to date including both active and recovered alerts.</p></li>
+<li><p><strong>Duration by step</strong> over the last 24 hours.</p></li>
+<li><p>A list of the <strong>last 10 test runs</strong> that link to the <DocLink slug="/serverless/observability/synthetics-analyze" section="details-for-one-run">details for each run</DocLink>.</p></li>
+</ul>
+<p><img alt="Individual journey page for browser monitors in the Synthetics UI" src="../../_images/synthetics-analyze-journeys-over-time.png" /></p>
+<p>From here, you can either drill down into:</p>
+<ul class="simple">
+<li><p>The latest run of the full journey by clicking <strong><DocIcon type="inspect" title="Inspect" /> View test run</strong>
+or a past run in the list of <strong>Last 10 test runs</strong>.
+This will take you to the view described below in <DocLink slug="/serverless/observability/synthetics-analyze" section="details-for-one-run">Details for one run</DocLink>.</p></li>
+<li><p>An individual step in this run by clicking the performance breakdown icon
+(<DocIcon type="apmTrace" title="APM trace" />) next to one of the steps.
+This will take you to the view described below in <DocLink slug="/serverless/observability/synthetics-analyze" section="details-for-one-step">Details for one step</DocLink>.</p></li>
+</ul>
+<div id="synthetics-analyze-one-run"></div>
+</section>
+<section id="details-for-one-run">
+<h3>Details for one run<a class="headerlink" href="#details-for-one-run" title="Link to this heading">¶</a></h3>
+<p>The page detailing one run for a journey includes more information on each step in the current run
+and opportunities to compare each step to the same step in previous runs.</p>
+<!--  What info it includes-->
+<p>At the top of the page, see the <em>Code executed</em> and any <em>Console</em> output for each step.
+If the step failed, this will also include a <em>Stacktrace</em> tab that you can use to
+diagnose the cause of errors.</p>
+<p>Navigate through each step using <strong><DocIcon type="arrowLeft" title="Previous" /> Previous</strong> and
+<strong>Next <DocIcon type="arrowRight" title="Next" /></strong>.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Step carousel on a page detailing one run of a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-run-code-executed.png" /></p>
+<!--  What info it includes-->
+<p>Scroll down to dig into the steps in this journey run.
+Click the <DocIcon type="arrowRight" title="Next" /> icon next to the step number to show details.
+The details include metrics for the step in the current run and the step in the last successful run.
+Read more about step-level metrics below in <DocLink slug="/serverless/observability/synthetics-analyze" section="timing">Timing</DocLink> and
+<DocLink slug="/serverless/observability/synthetics-analyze" section="metrics">Metrics</DocLink>.</p>
+<!--  What you might do with this info-->
+<p>This is particularly useful to compare the metrics for a failed step to the last time it completed successfully
+when trying to diagnose the reason it failed.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Step list on a page detailing one run of a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-run-compare-steps.png" /></p>
+<p>Drill down to see even more details for an individual step by clicking the performance breakdown icon
+(<DocIcon type="apmTrace" title="APM trace" />) next to one of the steps.
+This will take you to the view described below in <DocLink slug="/serverless/observability/synthetics-analyze" section="details-for-one-step">Details for one step</DocLink>.</p>
+<div id="synthetics-analyze-one-step"></div>
+</section>
+<section id="details-for-one-step">
+<h3>Details for one step<a class="headerlink" href="#details-for-one-step" title="Link to this heading">¶</a></h3>
+<p>After clicking the performance breakdown icon (<DocIcon type="apmTrace" title="APM trace" />)
+you’ll see more detail for an individual step.</p>
+<div id="synthetics-analyze-one-step-screenshot"></div>
+<section id="screenshot">
+<h4>Screenshot<a class="headerlink" href="#screenshot" title="Link to this heading">¶</a></h4>
+<!--  What info it includes-->
+<p>By default the synthetics library will capture a screenshot for each step regardless of
+whether the step completed or failed.</p>
+<DocCallOut title="Note">
+<p>Customize screenshot behavior for all monitors in the <DocLink slug="/serverless/observability/synthetics-configuration">configuration file</DocLink>,
+for one monitor using <DocLink slug="/serverless/observability/synthetics-monitor-use"><code class="docutils literal notranslate"><span class="pre">monitor.use</span></code></DocLink>, or for a run using
+the <DocLink slug="/serverless/observability/synthetics-command-reference" section="elasticsynthetics">CLI</DocLink>.</p>
+</DocCallOut>
+<!--  What you might do with this info-->
+<p>Screenshots can be particularly helpful to identify what went wrong when a step fails because of a change to the UI.
+You can compare the failed step to the last time the step successfully completed.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Screenshot for one step in a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-step-screenshot.png" /></p>
+<div id="synthetics-analyze-one-step-timing"></div>
+</section>
+<section id="timing">
+<h4>Timing<a class="headerlink" href="#timing" title="Link to this heading">¶</a></h4>
+<p>The <strong>Timing</strong> visualization shows a breakdown of the time spent in each part of
+the resource loading process for the step including:</p>
+<ul class="simple">
+<li><p><strong>Blocked</strong>: The request was initiated but is blocked or queued.</p></li>
+<li><p><strong>DNS</strong>: The DNS lookup to convert the hostname to an IP Address.</p></li>
+<li><p><strong>Connect</strong>: The time it took the request to connect to the server.
+Lengthy connections could indicate network issues, connection errors, or an overloaded server.</p></li>
+<li><p><strong>TLS</strong>: If your page is loading resources securely over TLS, this is the time it took to set up that connection.</p></li>
+<li><p><strong>Wait</strong>: The time it took for the response generated by the server to be received by the browser.
+A lengthy Waiting (TTFB) time could indicate server-side issues.</p></li>
+<li><p><strong>Receive</strong>: The time it took to receive the response from the server,
+which can be impacted by the size of the response.</p></li>
+<li><p><strong>Send</strong>: The time spent sending the request data to the server.</p></li>
+</ul>
+<p>Next to each network timing metric, there’s an icon that indicates whether the value is
+higher (<DocIcon type="sortUp" title="Arrow up" />),
+lower (<DocIcon type="sortDown" title="Arrow down" />),
+or the same (<DocIcon type="minus" title="Minus" />)
+compared to the median of all runs in the last 24 hours.
+Hover over the icon to see more details in a tooltip.</p>
+<!--  What you might do with this info-->
+<p>This gives you an overview of how much time is spent (and how that time is spent) loading resources.
+This high-level information may not help you diagnose a problem on its own, but it could act as a
+signal to look at more granular information in the <DocLink slug="/serverless/observability/synthetics-analyze" section="network-requests">Network requests</DocLink> section.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Network timing visualization for one step in a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-step-timing.png" /></p>
+<div id="synthetics-analyze-one-step-metrics"></div>
+</section>
+<section id="metrics">
+<h4>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">¶</a></h4>
+<!--  What info it includes-->
+<p>The <strong>Metrics</strong> visualization gives you insight into the performance of the web page visited in
+the step and what a user would experience when going through the current step.
+Metrics include:</p>
+<ul class="simple">
+<li><p><strong>First contentful paint (FCP)</strong> focuses on the initial rendering and measures the time from
+when the page starts loading to when any part of the page’s content is displayed on the screen.</p></li>
+<li><p><strong>Largest contentful paint (LCP)</strong> measures loading performance. To provide a good user experience,
+LCP should occur within 2.5 seconds of when the page first starts loading.</p></li>
+<li><p><strong>Cumulative layout shift (CLS)</strong> measures visual stability. To provide a good user experience,
+pages should maintain a CLS of less than 0.1.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">DOMContentLoaded</span></code> event (DCL)</strong> is triggered when the browser completes parsing the document.
+Helpful when there are multiple listeners, or logic is executed:
+<code class="docutils literal notranslate"><span class="pre">domContentLoadedEventEnd</span> <span class="pre">-</span> <span class="pre">domContentLoadedEventStart</span></code>.</p></li>
+<li><p><strong>Transfer size</strong> represents the size of the fetched resource. The size includes the response header
+fields plus the response payload body.</p></li>
+</ul>
+<DocCallOut title="Note">
+<p>Largest contentful paint and Cumulative layout shift are part of Google’s
+<a class="reference external" href="https://web.dev/vitals/">Core Web Vitals</a>, an initiative that introduces a set of metrics
+that help categorize good and bad sites by quantifying the real-world user experience.</p>
+</DocCallOut>
+<p>Next to each metric, there’s an icon that indicates whether the value is
+higher (<DocIcon type="sortUp" title="Arrow up" />),
+lower (<DocIcon type="sortDown" title="Arrow down" />),
+or the same (<DocIcon type="minus" title="Minus" />)
+compared to all runs over the last 24 hours.
+Hover over the icon to see more details in a tooltip.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Metrics visualization for one step in a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-step-metrics.png" /></p>
+<div id="synthetics-analyze-one-step-object"></div>
+</section>
+<section id="object-weight-and-count">
+<h4>Object weight and count<a class="headerlink" href="#object-weight-and-count" title="Link to this heading">¶</a></h4>
+<!--  What info it includes-->
+<p>The <strong>Object weight</strong> visualization shows the cumulative size of downloaded resources by type,
+and <strong>Object count</strong> shows the number of individual resources by type.</p>
+<!--  What you might do with this info-->
+<p>This provides a different kind of analysis.
+For example, you might have a large number of JavaScript files,
+each of which will need a separate download, but they may be collectively small.
+This could help you identify an opportunity to improve efficiency by combining multiple files into one.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Object visualization for one step in a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-step-object.png" /></p>
+<div id="synthetics-analyze-one-step-network"></div>
+</section>
+<section id="network-requests">
+<h4>Network requests<a class="headerlink" href="#network-requests" title="Link to this heading">¶</a></h4>
+<!--  What info it includes-->
+<p>The <strong>Network requests</strong> visualization is a waterfall chart that shows every request
+the page made when a user executed it.
+Each line in the chart represents an HTTP network request and helps you quickly identify
+what resources are taking the longest to load and in what order they are loading.</p>
+<p>The colored bars within each line indicate the time spent per resource.
+Each color represents a different part of that resource’s loading process
+(as defined in the <DocLink slug="/serverless/observability/synthetics-analyze" section="timing">Timing</DocLink> section above) and
+includes the time spent downloading content for specific
+Multipurpose Internet Mail Extensions (MIME) types:
+HTML, JS, CSS, Media, Font, XHR, and Other.</p>
+<p>Understanding each phase of a request can help you improve your site’s speed by
+reducing the time spent in each phase.</p>
+<!--  Screenshot of the viz-->
+<p><img alt="Network requests waterfall visualization for one step in a browser monitor in the Synthetics UI" src="../../_images/synthetics-analyze-one-step-network.png" /></p>
+<p>Without leaving the waterfall chart, you can view data points relating to each resource:
+resource details, request headers, response headers, and certificate headers.
+On the waterfall chart, select a resource name, or any part of each row,
+to display the resource details overlay.</p>
+<p>For additional analysis, whether to check the content of a CSS file or to view a specific image,
+click the <DocIcon type="popout" title="Popout" /> icon located beside each resource,
+to view its content in a new tab.</p>
+<p>You can also navigate between steps and checks at the top of the page to
+view the corresponding waterfall charts.</p>
+<!--  [discrete]-->
+<!--  <span id="synthetics-analyze-anomalies"></span> -->
+<!--  = Anomalies-->
+<!--  [discrete]-->
+<!--  <span id="synthetics-analyze-alerts"></span> -->
+<!--  = Alerts-->
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="synthetics-troubleshooting.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Troubleshooting Synthetics</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="synthetics-recorder.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Use the Synthetics Recorder</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Elasticsearch B.V. All Rights Reserved.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Analyze data from synthetic monitors</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#all-monitor-types">All monitor types</a><ul>
+<li><a class="reference internal" href="#id1">Overview</a></li>
+<li><a class="reference internal" href="#history">History</a></li>
+<li><a class="reference internal" href="#errors">Errors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#browser-monitors">Browser monitors</a><ul>
+<li><a class="reference internal" href="#journey-runs-over-time">Journey runs over time</a></li>
+<li><a class="reference internal" href="#details-for-one-run">Details for one run</a></li>
+<li><a class="reference internal" href="#details-for-one-step">Details for one step</a><ul>
+<li><a class="reference internal" href="#screenshot">Screenshot</a></li>
+<li><a class="reference internal" href="#timing">Timing</a></li>
+<li><a class="reference internal" href="#metrics">Metrics</a></li>
+<li><a class="reference internal" href="#object-weight-and-count">Object weight and count</a></li>
+<li><a class="reference internal" href="#network-requests">Network requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=140f00c8"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    </body>
+</html>
