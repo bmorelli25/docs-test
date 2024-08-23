@@ -6,6 +6,8 @@ on:
     types:
       - opened
       - synchronize
+    paths:
+    - docs/source/content-1/**
 
 permissions:
   contents: write

@@ -1,12 +1,13 @@
-name: build_docs
+name: test_docs
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
     paths:
-      - docs/source/content-3/**
+    - docs/source/content-4/**
 
 permissions:
   contents: write
@@ -22,12 +23,4 @@ jobs:
           pip install sphinx myst-parser sphinx-design sphinx-copybutton sphinx-togglebutton sphinxcontrib-mermaid sphobjinv ninja2 https://github.com/bmorelli25/furo/archive/refs/heads/main.zip
       - name: Sphinx build
         run: |
-          sphinx-build $GITHUB_WORKSPACE/docs/source/content-3 _build
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
-          keep_files: true
-          destination_dir: guides
+          sphinx-build $GITHUB_WORKSPACE/docs/source/content-4 _build
